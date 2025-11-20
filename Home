@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الصفحة الرئيسية لـ [ضع اسمك هنا]</title>
+    <style>
+        /*
+        * هذا الجزء يضيف بعض التنسيقات الأساسية
+        */
+        body {
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            margin-top: 50px;
+            background-color: #f4f4f9;
+            color: #333;
+            direction: rtl; /* لضمان عرض النص العربي بشكل صحيح */
+        }
+        h1 {
+            color: #007bff;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 10px;
+            display: inline-block;
+        }
+        p {
+            font-size: 1.2em;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>مرحباً بكم في صفحتي الرئيسية!</h1>
+    </header>
+
+    <main>
+        <p>أهلاً بك! أنا **[ضع اسمك هنا]**.</p>
+        <p>هذه هي الصفحة الرئيسية لموقعي الشخصي (Index).</p>
+        <p>يمكنك البدء في إضافة المحتوى الخاص بك هنا.</p>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 [ضع اسمك هنا]. جميع الحقوق محفوظة.</p>
+    </footer>
+
+</body>
+</html>

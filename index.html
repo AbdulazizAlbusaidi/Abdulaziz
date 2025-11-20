@@ -1,126 +1,619 @@
+
 <!DOCTYPE html>
 <html lang="ar">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;700&display=swap" rel="stylesheet">
-    <title>الصفحة الرئيسية | [AbdulazizAlbusaidi]</title>
+    <title>[اسمك] | لوحة المعلومات الشخصية</title>
     
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;700;900&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
     <style>
-        /* التنسيقات العامة والتخطيط */
+        /* ====================================
+           1. المتغيرات الأساسية والتصميم العام
+           ==================================== */
+
+        /* متغيرات الألوان للوضع الفاتح */
         :root {
-            --primary-color: #1a4a6d; /* أزرق داكن */
-            --secondary-color: #3498db; /* أزرق سماوي */
-            --background-color: #f8f9fa; /* رمادي فاتح جداً */
-            --text-color: #333;
-            --shadow-light: 0 4px 8px rgba(0, 0, 0, 0.1);
+            --bg-light: #f4f6f9;
+            --surface-light: #ffffff;
+            --text-primary: #333333;
+            --text-secondary: #6c757d;
+            --primary-color: #007bff;
+            --primary-hover: #0056b3;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --shadow-hover: 0 8px 20px rgba(0, 0, 0, 0.15);
+            --border-radius: 12px;
+            --transition-speed: 0.3s;
+        }
+
+        /* متغيرات الألوان للوضع الداكن */
+        .dark-mode {
+            --bg-light: #121212;
+            --surface-light: #1e1e1e;
+            --text-primary: #e0e0e0;
+            --text-secondary: #b0b0b0;
+            --primary-color: #4a90e2;
+            --primary-hover: #357bd7;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+        }
+
+        /* التنسيقات الأساسية */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
 
         body {
-            font-family: 'Tajawal', sans-serif;
-            background-color: var(--background-color);
-            color: var(--text-color);
-            direction: rtl; /* للعربية */
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh; /* لجعل المحتوى يتوسط الشاشة عمودياً */
+            font-family: 'Cairo', sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-primary);
+            transition: background-color var(--transition-speed), color var(--transition-speed);
+            direction: rtl; /* اتجاه النص من اليمين لليسار للعربية */
+            line-height: 1.6;
         }
 
-        /* تنسيق الحاوية الرئيسية */
-        .container {
-            background-color: #ffffff;
-            padding: 40px 60px;
-            border-radius: 12px;
-            box-shadow: var(--shadow-light);
-            max-width: 800px;
-            width: 90%;
+        /* تنسيق الروابط */
+        a {
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: color var(--transition-speed);
+        }
+
+        a:hover {
+            color: var(--primary-hover);
+        }
+
+        /* ====================================
+           2. شريط التنقل العلوي (Navbar)
+           ==================================== */
+
+        .navbar {
+            background-color: var(--surface-light);
+            box-shadow: var(--shadow);
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar-logo {
+            font-size: 1.8em;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-left: 20px;
+        }
+
+        .nav-links a {
+            padding: 8px 0;
+            display: block;
+            color: var(--text-primary);
+        }
+
+        .navbar-actions {
+            display: flex;
+            align-items: center;
+        }
+
+        /* زر قائمة الموبايل (Hamburger Menu) */
+        .menu-toggle {
+            font-size: 1.5em;
+            cursor: pointer;
+            margin-left: 15px;
+            display: none; /* إخفاؤه افتراضياً على شاشات سطح المكتب */
+        }
+        
+        /* زر الوضع الداكن/الفاتح */
+        .theme-toggle {
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 1.3em;
+            cursor: pointer;
+            transition: color var(--transition-speed);
+        }
+
+        /* ====================================
+           3. التخطيط الرئيسي (Main Layout)
+           ==================================== */
+
+        .dashboard-layout {
+            display: flex;
+            min-height: calc(100vh - 70px); /* 70px هو ارتفاع الشريط العلوي تقريباً */
+        }
+
+        /* شريط جانبي (Sidebar) */
+        .sidebar {
+            width: 280px;
+            background-color: var(--surface-light);
+            box-shadow: var(--shadow);
+            padding: 20px;
+            transition: transform var(--transition-speed), width var(--transition-speed);
+            position: sticky;
+            top: 70px; /* تحت شريط التنقل */
+            height: calc(100vh - 70px);
+            overflow-y: auto;
+            flex-shrink: 0;
+        }
+
+        .profile-section {
+            text-align: center;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1); /* فاصل */
+            margin-bottom: 20px;
+        }
+
+        .profile-img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        .profile-name {
+            font-size: 1.5em;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .profile-title {
+            color: var(--text-secondary);
+            font-size: 0.9em;
+        }
+
+        .sidebar-links {
+            list-style: none;
+        }
+
+        .sidebar-links li a {
+            display: flex;
+            align-items: center;
+            padding: 12px 10px;
+            margin-bottom: 8px;
+            border-radius: var(--border-radius);
+            color: var(--text-primary);
+            transition: background-color var(--transition-speed);
+            font-weight: 400;
+        }
+
+        .sidebar-links li a i {
+            margin-left: 10px;
+            font-size: 1.1em;
+        }
+
+        .sidebar-links li a:hover,
+        .sidebar-links li.active a {
+            background-color: var(--primary-color);
+            color: white;
+            box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3);
+        }
+
+        /* المحتوى الرئيسي (Main Content) */
+        .main-content {
+            flex-grow: 1;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        /* ====================================
+           4. مكونات البطاقات (Cards) والشبكة
+           ==================================== */
+
+        .dashboard-grid {
+            display: grid;
+            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        }
+
+        .card {
+            background-color: var(--surface-light);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            padding: 25px;
+            transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .card-header {
+            font-size: 1.4em;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 8px;
+        }
+
+        /* بطاقة المهارات (Skills) */
+        .skill-item {
+            margin-bottom: 15px;
+        }
+
+        .skill-name {
+            display: flex;
+            justify-content: space-between;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .progress-bar-container {
+            background-color: var(--bg-light);
+            border-radius: 5px;
+            height: 10px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background-color: var(--primary-color);
+            transition: width 1s ease-out;
+            border-radius: 5px;
+        }
+
+        /* بطاقة المشاريع (Projects) */
+        .project-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px dashed rgba(0, 0, 0, 0.1);
+        }
+
+        .project-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .project-icon {
+            font-size: 1.8em;
+            color: var(--primary-color);
+            margin-left: 15px;
+            width: 40px;
             text-align: center;
         }
 
-        /* تنسيق العنوان الرئيسي */
-        h1 {
-            color: var(--primary-color);
+        .project-details strong {
+            display: block;
             font-weight: 700;
-            font-size: 2.8em;
-            margin-bottom: 20px;
-            /* إضافة ظل خفيف وجميل */
-            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.05);
-            padding-bottom: 10px;
         }
 
-        /* تنسيق النص الترحيبي */
-        .welcome-message {
-            font-size: 1.4em;
-            color: #555;
-            margin-bottom: 30px;
-            line-height: 1.6;
-            border-bottom: 1px solid #eee;
-            padding-bottom: 20px;
-        }
-
-        .name-highlight {
-            color: var(--secondary-color);
-            font-weight: 700;
-            border-bottom: 3px solid var(--secondary-color);
-            padding-bottom: 2px;
-        }
-
-        /* تنسيق قسم الإجراء (Footer) */
-        footer {
-            margin-top: 30px;
-            padding-top: 20px;
+        .project-details span {
             font-size: 0.9em;
-            color: #aaa;
+            color: var(--text-secondary);
         }
 
-        /* زر بسيط للبدء (يمكنك تعديله لاحقاً) */
-        .btn {
-            display: inline-block;
-            background-color: var(--secondary-color);
-            color: white;
-            padding: 12px 25px;
-            text-decoration: none;
-            border-radius: 5px;
-            margin-top: 20px;
-            transition: background-color 0.3s ease, transform 0.2s ease;
-            font-weight: 700;
+        /* بطاقة الإحصائيات (Statistics) */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            text-align: center;
         }
 
-        .btn:hover {
-            background-color: #2980b9; /* لون أغمق عند المرور */
-            transform: translateY(-2px);
+        .stat-item {
+            background-color: var(--bg-light);
+            border-radius: var(--border-radius);
+            padding: 15px;
+        }
+
+        .stat-count {
+            font-size: 2em;
+            font-weight: 900;
+            color: var(--primary-color);
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 0.9em;
+            color: var(--text-secondary);
+        }
+
+        /* ====================================
+           5. التذييل (Footer)
+           ==================================== */
+
+        .footer {
+            background-color: var(--surface-light);
+            color: var(--text-secondary);
+            text-align: center;
+            padding: 20px;
+            margin-top: 30px;
+            border-top: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .footer-socials a {
+            font-size: 1.5em;
+            margin: 0 10px;
+            color: var(--text-secondary);
+        }
+
+        .footer-socials a:hover {
+            color: var(--primary-color);
+        }
+        
+        .footer p {
+            margin-top: 10px;
+            font-size: 0.9em;
+        }
+
+        /* ====================================
+           6. استجابة الشاشات (Media Queries)
+           ==================================== */
+
+        /* شاشات الموبايل والتابلت الصغيرة */
+        @media (max-width: 992px) {
+            /* شريط التنقل */
+            .nav-links {
+                display: none; /* إخفاء قائمة الروابط في القائمة العلوية */
+            }
+
+            .menu-toggle {
+                display: block; /* إظهار زر القائمة المنسدلة (الهمبرغر) */
+            }
+
+            /* شريط التنقل الجانبي */
+            .sidebar {
+                position: fixed;
+                transform: translateX(280px); /* إخفاء الشريط الجانبي خارج الشاشة (جهة اليمين) */
+                z-index: 999;
+                height: 100vh;
+                top: 0;
+            }
+            
+            /* إظهار الشريط الجانبي عند إضافة الكلاس */
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                width: 100%;
+                padding: 15px;
+            }
+        }
+        
+        /* شاشات التابلت */
+        @media (min-width: 768px) and (max-width: 992px) {
+            .dashboard-grid {
+                grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            }
+            .sidebar {
+                /* زيادة العرض قليلاً في التابلت */
+                width: 250px;
+            }
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <header>
-            <h1>مرحباً بكم في صفحتي الشخصية</h1>
-        </header>
+    <nav class="navbar">
+        <div class="navbar-logo">[اسمك]</div>
+        
+        <ul class="nav-links">
+            <li><a href="#about"><i class="fas fa-home"></i> الرئيسية</a></li>
+            <li><a href="#projects"><i class="fas fa-code"></i> المشاريع</a></li>
+            <li><a href="#contact"><i class="fas fa-envelope"></i> تواصل</a></li>
+        </ul>
 
-        <main>
-            <p class="welcome-message">
-                أهلاً وسهلاً بك في الصفحة الرئيسية.
-                <br>
-                 <span class="name-highlight">[ صفحة عبدالعزيز حمود سعيد البوسعيدي]</span>، وهذه نقطة الانطلاق لموقعي.
-            </p>
+        <div class="navbar-actions">
+            <button class="theme-toggle" id="themeToggle" title="تبديل الوضع">
+                <i class="fas fa-sun"></i> 
+            </button>
+
+            <div class="menu-toggle" id="menuToggle">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </nav>
+
+    <div class="dashboard-layout">
+        
+        <aside class="sidebar" id="sidebar">
+            <div class="profile-section">
+                <img src="https://via.placeholder.com/120/007bff/ffffff?text=P" alt="صورة الملف الشخصي" class="profile-img">
+                <h2 class="profile-name">[اسمك بالكامل]</h2>
+                <p class="profile-title">IT Specialist | SysAdmin | Developer</p>
+            </div>
             
-            <p>
-                استكشف المحتوى الخاص بي أو تواصل معي عبر زر البدء أدناه.
-            </p>
+            <ul class="sidebar-links">
+                <li class="active"><a href="#dashboard"><i class="fas fa-tachometer-alt"></i> لوحة المعلومات</a></li>
+                <li><a href="#skills-card"><i class="fas fa-tools"></i> المهارات الفنية</a></li>
+                <li><a href="#resume"><i class="fas fa-file-alt"></i> سيرتي الذاتية (PDF)</a></li>
+                <li><a href="#gallery"><i class="fas fa-images"></i> معرض الأعمال</a></li>
+                <li style="margin-top: 15px;"><a href="[رابط حساب LinkedIn]" target="_blank"><i class="fab fa-linkedin"></i> LinkedIn</a></li>
+                <li><a href="[رابط حساب GitHub]" target="_blank"><i class="fab fa-github"></i> GitHub</a></li>
+            </ul>
+        </aside>
 
-            <a href="wa.moe/9630138" class="btn">ابدأ الآن</a>
+        <main class="main-content">
+            
+            <section id="dashboard" class="dashboard-grid">
+
+                <div class="card" id="about">
+                    <h3 class="card-header">👋 عني</h3>
+                    <p>
+                        مرحباً! أنا **[اسمك]**، متخصص في أنظمة وتكنولوجيا المعلومات بخبرة تزيد عن [عدد] سنوات. شغفي يكمن في بناء حلول تقنية مستدامة، من إدارة البنية التحتية للخوادم إلى تطوير تطبيقات الويب باستخدام [اذكر تقنياتك الرئيسية، مثل: React و Python]. أسعى دائماً لتبسيط العمليات وتقديم قيمة مضافة من خلال التكنولوجيا.
+                    </p>
+                </div>
+
+                <div class="card" id="stats-card">
+                    <h3 class="card-header">📊 إحصائيات سريعة</h3>
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <div class="stat-count">5+</div>
+                            <div class="stat-label">سنوات خبرة</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-count">45</div>
+                            <div class="stat-label">مشروع مكتمل</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-count">8</div>
+                            <div class="stat-label">شهادات احترافية</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-count">2K+</div>
+                            <div class="stat-label">ساعة برمجة</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card" id="skills-card" style="grid-column: 1 / -1;"> <h3 class="card-header">🛠️ المهارات الفنية</h3>
+                    <div class="skill-item">
+                        <div class="skill-name"><span>HTML & CSS</span> <span>95%</span></div>
+                        <div class="progress-bar-container"><div class="progress-bar" style="width: 95%;"></div></div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-name"><span>JavaScript / React</span> <span>80%</span></div>
+                        <div class="progress-bar-container"><div class="progress-bar" style="width: 80%;"></div></div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-name"><span>Python / Django</span> <span>75%</span></div>
+                        <div class="progress-bar-container"><div class="progress-bar" style="width: 75%;"></div></div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-name"><span>Linux & Servers</span> <span>90%</span></div>
+                        <div class="progress-bar-container"><div class="progress-bar" style="width: 90%;"></div></div>
+                    </div>
+                </div>
+
+                <div class="card" id="projects" style="grid-column: 1 / -1;"> <h3 class="card-header">🌟 أحدث المشاريع</h3>
+                    
+                    <div class="project-item">
+                        <i class="fas fa-globe project-icon"></i>
+                        <div class="project-details">
+                            <strong>نظام إدارة المشاريع (PMS)</strong>
+                            <span>تطبيق ويب متكامل باستخدام Django و PostgreSQL.</span>
+                        </div>
+                    </div>
+
+                    <div class="project-item">
+                        <i class="fas fa-server project-icon"></i>
+                        <div class="project-details">
+                            <strong>إدارة خوادم سحابية</strong>
+                            <span>بناء وتأمين بيئة إنتاج على AWS/Azure.</span>
+                        </div>
+                    </div>
+
+                    <div class="project-item">
+                        <i class="fas fa-mobile-alt project-icon"></i>
+                        <div class="project-details">
+                            <strong>تطبيق جوال للتتبع</strong>
+                            <span>واجهة مستخدم تفاعلية باستخدام React Native.</span>
+                        </div>
+                    </div>
+
+                </div>
+
+            </section>
         </main>
     </div>
-
-    <footer>
-        <p>&copy; 2025 <span class="name-highlight">[ AbuOmarAlbusaidi]</span>. جميع الحقوق محفوظة.</p>
+    
+    <footer class="footer" id="contact">
+        <div class="footer-socials">
+            <a href="[رابط LinkedIn]" target="_blank" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+            <a href="[رابط GitHub]" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
+            <a href="mailto:[بريدك الإلكتروني]" title="Email"><i class="fas fa-envelope"></i></a>
+            <a href="https://wa.me/[رقم واتساب الدولي]" target="_blank" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+        </div>
+        <p>
+            &copy; 2025 [اسمك بالكامل]. جميع الحقوق محفوظة. تم التصميم باستخدام HTML, CSS, و Vanilla JS.
+        </p>
     </footer>
 
+    <script>
+        // ====================================
+        // وظيفة الوضع الداكن/الفاتح (Dark Mode)
+        // ====================================
+        const themeToggle = document.getElementById('themeToggle');
+        const body = document.body;
+
+        // وظيفة تطبيق الثيم
+        function applyTheme(isDark) {
+            if (isDark) {
+                body.classList.add('dark-mode');
+                themeToggle.querySelector('i').className = 'fas fa-moon';
+                localStorage.setItem('theme', 'dark');
+            } else {
+                body.classList.remove('dark-mode');
+                themeToggle.querySelector('i').className = 'fas fa-sun';
+                localStorage.setItem('theme', 'light');
+            }
+        }
+
+        // تحميل الثيم من التخزين المحلي عند تحميل الصفحة
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark') {
+            applyTheme(true);
+        } else {
+            // الثيم الافتراضي هو الفاتح إذا لم يكن هناك ثيم محفوظ
+            applyTheme(false);
+        }
+
+        // التبديل بين الأوضاع عند النقر
+        themeToggle.addEventListener('click', () => {
+            const isDark = body.classList.contains('dark-mode');
+            applyTheme(!isDark);
+        });
+        
+        // ====================================
+        // وظيفة طي/فتح الشريط الجانبي (Sidebar Toggle)
+        // ====================================
+        const menuToggle = document.getElementById('menuToggle');
+        const sidebar = document.getElementById('sidebar');
+
+        menuToggle.addEventListener('click', () => {
+            // هذا الكلاس يعمل فقط في شاشات الموبايل (راجع Media Query)
+            sidebar.classList.toggle('active'); 
+            // تغيير أيقونة الهمبرغر 
+            if (sidebar.classList.contains('active')) {
+                menuToggle.querySelector('i').className = 'fas fa-times'; // إغلاق (X)
+            } else {
+                menuToggle.querySelector('i').className = 'fas fa-bars'; // قائمة (Hamburger)
+            }
+        });
+
+        // إغلاق الشريط الجانبي عند النقر على رابط في الموبايل
+        document.querySelectorAll('.sidebar-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                if (window.innerWidth <= 992) {
+                    sidebar.classList.remove('active');
+                    menuToggle.querySelector('i').className = 'fas fa-bars';
+                }
+            });
+        });
+        
+        // ====================================
+        // وظيفة التمرير السلس (Smooth Scrolling)
+        // ====================================
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+    </script>
 </body>
 </html>

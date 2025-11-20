@@ -3,44 +3,123 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>الصفحة الرئيسية لـ [ضع اسمك هنا]</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;700&display=swap" rel="stylesheet">
+    <title>الصفحة الرئيسية | [اسمك بالكامل]</title>
+    
     <style>
-        /*
-        * هذا الجزء يضيف بعض التنسيقات الأساسية
-        */
+        /* التنسيقات العامة والتخطيط */
+        :root {
+            --primary-color: #1a4a6d; /* أزرق داكن */
+            --secondary-color: #3498db; /* أزرق سماوي */
+            --background-color: #f8f9fa; /* رمادي فاتح جداً */
+            --text-color: #333;
+            --shadow-light: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
         body {
-            font-family: 'Arial', sans-serif;
+            font-family: 'Tajawal', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            direction: rtl; /* للعربية */
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh; /* لجعل المحتوى يتوسط الشاشة عمودياً */
+        }
+
+        /* تنسيق الحاوية الرئيسية */
+        .container {
+            background-color: #ffffff;
+            padding: 40px 60px;
+            border-radius: 12px;
+            box-shadow: var(--shadow-light);
+            max-width: 800px;
+            width: 90%;
             text-align: center;
-            margin-top: 50px;
-            background-color: #f4f4f9;
-            color: #333;
-            direction: rtl; /* لضمان عرض النص العربي بشكل صحيح */
         }
+
+        /* تنسيق العنوان الرئيسي */
         h1 {
-            color: #007bff;
-            border-bottom: 2px solid #007bff;
+            color: var(--primary-color);
+            font-weight: 700;
+            font-size: 2.8em;
+            margin-bottom: 20px;
+            /* إضافة ظل خفيف وجميل */
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.05);
             padding-bottom: 10px;
-            display: inline-block;
         }
-        p {
-            font-size: 1.2em;
+
+        /* تنسيق النص الترحيبي */
+        .welcome-message {
+            font-size: 1.4em;
+            color: #555;
+            margin-bottom: 30px;
+            line-height: 1.6;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 20px;
+        }
+
+        .name-highlight {
+            color: var(--secondary-color);
+            font-weight: 700;
+            border-bottom: 3px solid var(--secondary-color);
+            padding-bottom: 2px;
+        }
+
+        /* تنسيق قسم الإجراء (Footer) */
+        footer {
+            margin-top: 30px;
+            padding-top: 20px;
+            font-size: 0.9em;
+            color: #aaa;
+        }
+
+        /* زر بسيط للبدء (يمكنك تعديله لاحقاً) */
+        .btn {
+            display: inline-block;
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 12px 25px;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 20px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            font-weight: 700;
+        }
+
+        .btn:hover {
+            background-color: #2980b9; /* لون أغمق عند المرور */
+            transform: translateY(-2px);
         }
     </style>
 </head>
 <body>
 
-    <header>
-        <h1>مرحباً بكم في صفحتي الرئيسية!</h1>
-    </header>
+    <div class="container">
+        <header>
+            <h1>مرحباً بكم في صفحتي الشخصية</h1>
+        </header>
 
-    <main>
-        <p>أهلاً بك! أنا **[ضع اسمك هنا]**.</p>
-        <p>هذه هي الصفحة الرئيسية لموقعي الشخصي (Index).</p>
-        <p>يمكنك البدء في إضافة المحتوى الخاص بك هنا.</p>
-    </main>
+        <main>
+            <p class="welcome-message">
+                أهلاً وسهلاً بك في الصفحة الرئيسية.
+                <br>
+                أنا <span class="name-highlight">[ صفحة عبدالعزيز حمود سعيد البوسعيدي]</span>، وهذه نقطة الانطلاق لموقعي.
+            </p>
+            
+            <p>
+                استكشف المحتوى الخاص بي أو تواصل معي عبر زر البدء أدناه.
+            </p>
+
+            <a href="#" class="btn">ابدأ الآن</a>
+        </main>
+    </div>
 
     <footer>
-        <p>&copy; 2025 [ضع اسمك هنا]. جميع الحقوق محفوظة.</p>
+        <p>&copy; 2025 <span class="name-highlight">[ صفحة عبدالعزيز حمود سعيد البوسعيدي]</span>. جميع الحقوق محفوظة.</p>
     </footer>
 
 </body>
